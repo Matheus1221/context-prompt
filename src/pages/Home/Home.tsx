@@ -1,11 +1,13 @@
+import { Button } from "@/components/ui/button";
 import styles from "./Home.module.scss";
-import Button from "@/components/ui/button";
+import { Header } from "@/components/Header/Header";
 
 export function Home() {
   return (
     <div className={styles.page}>
+      <Header />
       <main>
-        <h1 className="text-4xl font-bold text-blue-500">Tailwind</h1>
+        <h1>Olá Mundo Porra</h1>
         <Button>Click me</Button>
       </main>
     </div>
