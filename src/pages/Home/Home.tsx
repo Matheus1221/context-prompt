@@ -1,14 +1,14 @@
-import { Button } from "@/components/ui/button";
-import styles from "./Home.module.scss";
-import { Header } from "@/components/Header/Header";
+import { Header } from "@/components/layout/Header/Header";
 
 export function Home() {
   return (
-    <div className={styles.page}>
+    <div className="min-h-screen bg-white">
       <Header />
-      <main>
-        <h1>Olá Mundo Porra</h1>
-        <Button>Click me</Button>
+
+      <main className="pt-36">
+        <section className="mx-auto w-full max-w-300 px-4 py-16">
+          <h1 className="text-4xl font-bold text-zinc-900">Home</h1>
+        </section>
       </main>
     </div>
   );
