@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/layout/Header/Header";
 import { useItemStore } from "@/store/itemStore";
 import { generatePrompt } from "@/lib/promptGenerator";
-import type { ChecklistItem } from "@/types";
+import type { ChecklistItem } from "@/types/promptItem";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -91,7 +91,9 @@ const ItemDetail: React.FC = () => {
   };
 
   const handleRemoveTask = (taskId: string) => {
-    const updatedChecklist = item.checklist.filter((task) => task.id !== taskId);
+    const updatedChecklist = item.checklist.filter(
+      (task) => task.id !== taskId,
+    );
     updateItem(item.id, { checklist: updatedChecklist });
   };
 
@@ -147,13 +149,18 @@ const ItemDetail: React.FC = () => {
                 </div>
 
                 <div className="rounded-xl border border-border/70 bg-background/85 px-3 py-2 text-right">
-                  <p className="text-xs text-muted-foreground">Progresso total</p>
+                  <p className="text-xs text-muted-foreground">
+                    Progresso total
+                  </p>
                   <p className="text-xl font-semibold">{progress}%</p>
                 </div>
               </div>
 
               <div className="mt-4 h-2 overflow-hidden rounded-full bg-muted">
-                <div className="h-full rounded-full bg-primary transition-all duration-500" style={{ width: `${progress}%` }} />
+                <div
+                  className="h-full rounded-full bg-primary transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
               </div>
             </CardContent>
           </Card>
@@ -183,7 +190,9 @@ const ItemDetail: React.FC = () => {
                         />
                         <span
                           className={`flex-1 transition-all ${
-                            task.concluido ? "text-muted-foreground line-through" : ""
+                            task.concluido
+                              ? "text-muted-foreground line-through"
+                              : ""
                           }`}
                         >
                           {task.texto}
@@ -228,7 +237,7 @@ const ItemDetail: React.FC = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <pre className="max-h-[380px] overflow-auto rounded-xl border border-border/70 bg-background/82 p-4 text-sm leading-relaxed">
+                  <pre className="max-h-95 overflow-auto rounded-xl border border-border/70 bg-background/82 p-4 text-sm leading-relaxed">
                     {generatedPrompt}
                   </pre>
                 </CardContent>
@@ -243,7 +252,8 @@ const ItemDetail: React.FC = () => {
                     <CircleCheckBig className="size-4 text-emerald-400" />
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    {completedTasks} de {item.checklist.length} tarefas concluidas.
+                    {completedTasks} de {item.checklist.length} tarefas
+                    concluidas.
                   </p>
                   <Button
                     onClick={handleCopyPrompt}
@@ -277,8 +287,10 @@ const ItemDetail: React.FC = () => {
                   <Textarea
                     placeholder="Descreva o objetivo deste item..."
                     value={item.descricao}
-                    onChange={(e) => handleContextChange("descricao", e.target.value)}
-                    className="min-h-[120px]"
+                    onChange={(e) =>
+                      handleContextChange("descricao", e.target.value)
+                    }
+                    className="min-h-30"
                   />
                 </CardContent>
               </Card>
@@ -294,8 +306,10 @@ const ItemDetail: React.FC = () => {
                   <Textarea
                     placeholder="Cole links uteis (um por linha)..."
                     value={item.links}
-                    onChange={(e) => handleContextChange("links", e.target.value)}
-                    className="min-h-[120px]"
+                    onChange={(e) =>
+                      handleContextChange("links", e.target.value)
+                    }
+                    className="min-h-30"
                   />
                 </CardContent>
               </Card>
@@ -311,8 +325,10 @@ const ItemDetail: React.FC = () => {
                   <Textarea
                     placeholder="Observacoes adicionais..."
                     value={item.observacoes}
-                    onChange={(e) => handleContextChange("observacoes", e.target.value)}
-                    className="min-h-[110px]"
+                    onChange={(e) =>
+                      handleContextChange("observacoes", e.target.value)
+                    }
+                    className="min-h-27.5"
                   />
                 </CardContent>
               </Card>

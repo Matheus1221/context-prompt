@@ -1,15 +1,15 @@
 // store/itemStore.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Item, ItemType } from "../types";
+import type { PromptItem, PromptItemType } from "../types/promptItem";
 import { getTemplateByType } from "../lib/templates";
 
 interface ItemStore {
-  items: Item[];
-  addItem: (nome: string, tipo: ItemType) => void;
-  updateItem: (id: string, updates: Partial<Item>) => void;
+  items: PromptItem[];
+  addItem: (nome: string, tipo: PromptItemType) => void;
+  updateItem: (id: string, updates: Partial<PromptItem>) => void;
   deleteItem: (id: string) => void;
-  getItemById: (id: string) => Item | undefined;
+  getItemById: (id: string) => PromptItem | undefined;
 }
 
 export const useItemStore = create<ItemStore>()(
@@ -17,7 +17,7 @@ export const useItemStore = create<ItemStore>()(
     (set, get) => ({
       items: [],
       addItem: (nome, tipo) => {
-        const newItem: Item = {
+        const newPromptItem: PromptItem = {
           id: crypto.randomUUID(),
           nome,
           tipo,
@@ -28,7 +28,7 @@ export const useItemStore = create<ItemStore>()(
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         };
-        set((state) => ({ items: [...state.items, newItem] }));
+        set((state) => ({ items: [...state.items, newPromptItem] }));
       },
       updateItem: (id, updates) => {
         set((state) => ({

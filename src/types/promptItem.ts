@@ -1,5 +1,5 @@
 // types/index.ts
-export type ItemType = "componente" | "tela" | "formulario";
+export type PromptItemType = "componente" | "tela" | "formulario";
 
 export interface ChecklistItem {
   id: string;
@@ -7,10 +7,10 @@ export interface ChecklistItem {
   concluido: boolean;
 }
 
-export interface Item {
+export interface PromptItem {
   id: string;
   nome: string;
-  tipo: ItemType;
+  tipo: PromptItemType;
   descricao: string;
   links: string;
   observacoes: string;
@@ -19,4 +19,4 @@ export interface Item {
   updatedAt: string;
 }
 
-export type ItemStatus = "nao-iniciado" | "em-andamento" | "concluido";
+export type PromptItemStatus = "nao-iniciado" | "em-andamento" | "concluido";

@@ -1,5 +1,5 @@
 // lib/templates.ts
-import type { ChecklistItem } from "../types";
+import type { ChecklistItem } from "../types/promptItem";
 
 export const TEMPLATES: Record<string, ChecklistItem[]> = {
   componente: [

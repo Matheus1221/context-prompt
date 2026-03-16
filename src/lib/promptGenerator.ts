@@ -1,7 +1,7 @@
 // lib/promptGenerator.ts
-import type { Item } from "../types";
+import type { PromptItem } from "../types/promptItem";
 
-export const generatePrompt = (item: Item): string => {
+export const generatePrompt = (item: PromptItem): string => {
   const concluidos = item.checklist
     .filter((c) => c.concluido)
     .map((c) => `- [x] ${c.texto}`);

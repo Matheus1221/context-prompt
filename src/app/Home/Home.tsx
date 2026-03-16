@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Header } from "@/components/layout/Header/Header";
 import { useItemStore } from "@/store/itemStore";
 import { getStatus } from "@/hooks/useProgress";
-import type { ItemType } from "@/types";
+import type { PromptItemType } from "@/types/promptItem";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -57,7 +57,7 @@ export default function Home() {
   const { items, addItem, deleteItem } = useItemStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newItemName, setNewItemName] = useState("");
-  const [newItemType, setNewItemType] = useState<ItemType>("componente");
+  const [newItemType, setNewItemType] = useState<PromptItemType>("componente");
 
   const sortedItems = [...items].sort(
     (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
@@ -116,8 +116,8 @@ export default function Home() {
                     Biblioteca de contexto para IA
                   </h1>
                   <p className="mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
-                    Organize contexto por componente, tela e formulario para gerar
-                    prompts consistentes e com menos retrabalho.
+                    Organize contexto por componente, tela e formulario para
+                    gerar prompts consistentes e com menos retrabalho.
                   </p>
                 </CardContent>
               </Card>
@@ -153,7 +153,11 @@ export default function Home() {
                           : "Concluido";
 
                     return (
-                      <Link to={`/item/${item.id}`} key={item.id} className="block">
+                      <Link
+                        to={`/item/${item.id}`}
+                        key={item.id}
+                        className="block"
+                      >
                         <Card className="h-full border-border/75 bg-card transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40">
                           <CardHeader className="pb-3">
                             <CardTitle className="flex items-start justify-between gap-3">
@@ -166,7 +170,9 @@ export default function Home() {
                                     {typeLabels[item.tipo]}
                                   </span>
                                 </div>
-                                <span className="line-clamp-1 text-base">{item.nome}</span>
+                                <span className="line-clamp-1 text-base">
+                                  {item.nome}
+                                </span>
                               </div>
 
                               <Button
@@ -199,11 +205,18 @@ export default function Home() {
 
                             <div className="mb-4">
                               <div className="mb-1.5 flex items-center justify-between text-xs">
-                                <span className="text-muted-foreground">Progresso</span>
-                                <span className="font-medium text-foreground">{progress}%</span>
+                                <span className="text-muted-foreground">
+                                  Progresso
+                                </span>
+                                <span className="font-medium text-foreground">
+                                  {progress}%
+                                </span>
                               </div>
                               <div className="h-1.5 overflow-hidden rounded-full bg-muted">
-                                <div className="h-full rounded-full bg-primary transition-all duration-500" style={{ width: `${progress}%` }} />
+                                <div
+                                  className="h-full rounded-full bg-primary transition-all duration-500"
+                                  style={{ width: `${progress}%` }}
+                                />
                               </div>
                             </div>
 
@@ -223,12 +236,17 @@ export default function Home() {
                     <div className="mb-5 rounded-2xl border border-primary/30 bg-primary/10 p-4">
                       <Plus className="size-8 text-primary" />
                     </div>
-                    <h2 className="mb-2 text-xl font-semibold">Nenhum item criado</h2>
+                    <h2 className="mb-2 text-xl font-semibold">
+                      Nenhum item criado
+                    </h2>
                     <p className="mb-6 max-w-md text-muted-foreground">
-                      Inicie com um item e use checklist, links e observacoes para
-                      montar prompts consistentes.
+                      Inicie com um item e use checklist, links e observacoes
+                      para montar prompts consistentes.
                     </p>
-                    <Button onClick={() => setIsModalOpen(true)} className="gap-2">
+                    <Button
+                      onClick={() => setIsModalOpen(true)}
+                      className="gap-2"
+                    >
                       <Plus className="size-4" />
                       Criar primeiro item
                     </Button>
@@ -260,7 +278,9 @@ export default function Home() {
                     </p>
                   </div>
                   <div className="rounded-xl border border-border/70 bg-background/80 p-3">
-                    <p className="text-xs text-muted-foreground">Em andamento</p>
+                    <p className="text-xs text-muted-foreground">
+                      Em andamento
+                    </p>
                     <p className="mt-1 flex items-center gap-1 text-2xl font-semibold">
                       <Clock3 className="size-4 text-amber-300" />
                       {inProgress}
@@ -268,7 +288,9 @@ export default function Home() {
                   </div>
                   <div className="rounded-xl border border-border/70 bg-background/80 p-3">
                     <p className="text-xs text-muted-foreground">Media</p>
-                    <p className="mt-1 text-2xl font-semibold">{avgProgress}%</p>
+                    <p className="mt-1 text-2xl font-semibold">
+                      {avgProgress}%
+                    </p>
                   </div>
                 </CardContent>
               </Card>
@@ -279,7 +301,8 @@ export default function Home() {
                 </CardHeader>
                 <CardContent>
                   <p className="mb-4 text-sm text-muted-foreground">
-                    Crie itens curtos e objetivos para manter seus prompts limpos.
+                    Crie itens curtos e objetivos para manter seus prompts
+                    limpos.
                   </p>
                   <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                     <DialogTrigger asChild>
@@ -299,14 +322,18 @@ export default function Home() {
                             placeholder="Ex: Header da landing page"
                             value={newItemName}
                             onChange={(e) => setNewItemName(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && handleAddItem()}
+                            onKeyDown={(e) =>
+                              e.key === "Enter" && handleAddItem()
+                            }
                           />
                         </div>
                         <div className="space-y-2">
                           <label className="text-sm font-medium">Tipo</label>
                           <Select
                             value={newItemType}
-                            onValueChange={(value) => setNewItemType(value as ItemType)}
+                            onValueChange={(value) =>
+                              setNewItemType(value as PromptItemType)
+                            }
                           >
                             <SelectTrigger>
                               <SelectValue />
@@ -333,7 +360,11 @@ export default function Home() {
                             </SelectContent>
                           </Select>
                         </div>
-                        <Button onClick={handleAddItem} className="w-full" size="lg">
+                        <Button
+                          onClick={handleAddItem}
+                          className="w-full"
+                          size="lg"
+                        >
                           Criar item
                         </Button>
                       </div>

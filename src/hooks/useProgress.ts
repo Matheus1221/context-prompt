@@ -1,8 +1,8 @@
 // hooks/useProgress.ts
 import { useMemo } from "react";
-import type { Item, ItemStatus } from "../types";
+import type { PromptItem, PromptItemStatus } from "../types/promptItem";
 
-export const useProgress = (item: Item) => {
+export const useProgress = (item: PromptItem) => {
   return useMemo(() => {
     const total = item.checklist.length;
     if (total === 0) return 0;
@@ -11,7 +11,7 @@ export const useProgress = (item: Item) => {
   }, [item.checklist]);
 };
 
-export const getStatus = (progress: number): ItemStatus => {
+export const getStatus = (progress: number): PromptItemStatus => {
   if (progress === 0) return "nao-iniciado";
   if (progress === 100) return "concluido";
   return "em-andamento";
