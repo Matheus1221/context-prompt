@@ -12,8 +12,9 @@ export interface PromptItem {
   nome: string;
   tipo: PromptItemType;
   descricao: string;
+  ferramentas: string;
   links: string;
-  observacoes: string;
+  regras: string;
   checklist: ChecklistItem[];
   createdAt: string;
   updatedAt: string;

@@ -15,6 +15,9 @@ export const generatePrompt = (item: PromptItem): string => {
 ### Objetivo
 ${item.descricao || "(não definido)"}
 
+###ferramentas
+${item.ferramentas || "(não definido)"}
+
 ### Itens já definidos
 ${concluidos.join("\n") || "Nenhum"}
 
@@ -24,7 +27,8 @@ ${pendentes.join("\n") || "Nenhum"}
 ### Links de referência
 ${item.links || "Nenhum"}
 
-### Observações
-${item.observacoes || "Nenhuma"}
+
+### Regras
+${item.regras || "Nenhuma"}
   `.trim();
 };

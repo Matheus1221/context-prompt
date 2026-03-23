@@ -98,7 +98,7 @@ const ItemDetail: React.FC = () => {
   };
 
   const handleContextChange = (
-    field: "descricao" | "links" | "observacoes",
+    field: "descricao" | "links" | "regras" | "ferramentas",
     value: string,
   ) => {
     updateItem(item.id, { [field]: value });
@@ -275,12 +275,29 @@ const ItemDetail: React.FC = () => {
                   </Button>
                 </CardContent>
               </Card>
-
               <Card className="border-border/70 bg-card/92">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <FileText className="size-5 text-primary" />
-                    Descricao
+                    Ferramentas
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    placeholder="List a Stack e Tools escolhidas, se ja tiver definido..."
+                    value={item.ferramentas}
+                    onChange={(e) =>
+                      handleContextChange("ferramentas", e.target.value)
+                    }
+                    className="min-h-30"
+                  />
+                </CardContent>
+              </Card>
+              <Card className="border-border/70 bg-card/92">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="size-5 text-primary" />
+                    Descrição
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -318,15 +335,15 @@ const ItemDetail: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <MessageSquare className="size-5 text-primary" />
-                    Observacoes
+                    Regras
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Textarea
-                    placeholder="Observacoes adicionais..."
-                    value={item.observacoes}
+                    placeholder="Regras e restrições..."
+                    value={item.regras}
                     onChange={(e) =>
-                      handleContextChange("observacoes", e.target.value)
+                      handleContextChange("regras", e.target.value)
                     }
                     className="min-h-27.5"
                   />
