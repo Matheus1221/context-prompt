@@ -26,4 +26,23 @@ export const promptItemSchema = z.object({
   }),
 });
 
-export type PromptItemData = z.infer<typeof promptItemSchema>;
+export const promptItemCreateSchema = promptItemSchema.pick({
+  nome: true,
+  tipo: true,
+});
+
+export const promptItemContextSchema = promptItemSchema.pick({
+  descricao: true,
+  ferramentas: true,
+  links: true,
+  regras: true,
+});
+
+export const promptItemContextFieldSchemas = {
+  descricao: promptItemContextSchema.shape.descricao,
+  ferramentas: promptItemContextSchema.shape.ferramentas,
+  links: promptItemContextSchema.shape.links,
+  regras: promptItemContextSchema.shape.regras,
+} as const;
+
+export type promptItemData = z.infer<typeof promptItemSchema>;

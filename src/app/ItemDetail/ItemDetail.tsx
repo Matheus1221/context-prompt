@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { promptItemContextFieldSchemas } from "@/schemas/promptItemSchema";
 import {
   ArrowLeft,
   Plus,
@@ -31,6 +32,8 @@ const typeIcons = {
   formulario: FormIcon,
 };
 
+type ContextField = keyof typeof promptItemContextFieldSchemas;
+
 const ItemDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { items, updateItem } = useItemStore();
@@ -38,6 +41,9 @@ const ItemDetail: React.FC = () => {
 
   const [newTaskText, setNewTaskText] = useState("");
   const [copied, setCopied] = useState(false);
+  const [contextErrors, setContextErrors] = useState<
+    Partial<Record<ContextField, string>>
+  >({});
 
   const progress = item
     ? item.checklist.length > 0
@@ -97,10 +103,14 @@ const ItemDetail: React.FC = () => {
     updateItem(item.id, { checklist: updatedChecklist });
   };
 
-  const handleContextChange = (
-    field: "descricao" | "links" | "regras" | "ferramentas",
-    value: string,
-  ) => {
+  const handleContextChange = (field: ContextField, value: string) => {
+    const validation = promptItemContextFieldSchemas[field].safeParse(value);
+    setContextErrors((prev) => ({
+      ...prev,
+      [field]: validation.success
+        ? ""
+        : validation.error.issues[0]?.message ?? "Valor invalido.",
+    }));
     updateItem(item.id, { [field]: value });
   };
 
@@ -291,6 +301,11 @@ const ItemDetail: React.FC = () => {
                     }
                     className="min-h-30"
                   />
+                  {contextErrors.ferramentas ? (
+                    <p className="mt-2 text-sm text-destructive">
+                      {contextErrors.ferramentas}
+                    </p>
+                  ) : null}
                 </CardContent>
               </Card>
               <Card className="border-border/70 bg-card/92">
@@ -309,6 +324,11 @@ const ItemDetail: React.FC = () => {
                     }
                     className="min-h-30"
                   />
+                  {contextErrors.descricao ? (
+                    <p className="mt-2 text-sm text-destructive">
+                      {contextErrors.descricao}
+                    </p>
+                  ) : null}
                 </CardContent>
               </Card>
 
@@ -328,6 +348,11 @@ const ItemDetail: React.FC = () => {
                     }
                     className="min-h-30"
                   />
+                  {contextErrors.links ? (
+                    <p className="mt-2 text-sm text-destructive">
+                      {contextErrors.links}
+                    </p>
+                  ) : null}
                 </CardContent>
               </Card>
 
@@ -347,6 +372,11 @@ const ItemDetail: React.FC = () => {
                     }
                     className="min-h-27.5"
                   />
+                  {contextErrors.regras ? (
+                    <p className="mt-2 text-sm text-destructive">
+                      {contextErrors.regras}
+                    </p>
+                  ) : null}
                 </CardContent>
               </Card>
             </aside>

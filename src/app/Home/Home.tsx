@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header/Header";
 import { useItemStore } from "@/store/itemStore";
 import { getStatus } from "@/hooks/useProgress";
 import type { PromptItemType } from "@/types/promptItem";
+import { promptItemCreateSchema } from "@/schemas/promptItemSchema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -58,6 +59,7 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newItemName, setNewItemName] = useState("");
   const [newItemType, setNewItemType] = useState<PromptItemType>("componente");
+  const [newItemError, setNewItemError] = useState("");
 
   const sortedItems = [...items].sort(
     (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
@@ -89,11 +91,21 @@ export default function Home() {
       : 0;
 
   const handleAddItem = () => {
-    if (newItemName.trim()) {
-      addItem(newItemName.trim(), newItemType);
-      setNewItemName("");
-      setIsModalOpen(false);
+    const parsed = promptItemCreateSchema.safeParse({
+      nome: newItemName,
+      tipo: newItemType,
+    });
+
+    if (!parsed.success) {
+      const issue = parsed.error.issues[0];
+      setNewItemError(issue?.message ?? "Dados invalidos.");
+      return;
     }
+
+    addItem(parsed.data.nome, parsed.data.tipo);
+    setNewItemError("");
+    setNewItemName("");
+    setIsModalOpen(false);
   };
 
   return (
@@ -116,8 +128,8 @@ export default function Home() {
                     Biblioteca de contexto para IA
                   </h1>
                   <p className="mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
-                    Organize contexto por componente, tela e formulario para
-                    gerar prompts consistentes e com menos retrabalho.
+                    Crie seu plano de desenvolvimendo para IA de forma simples,
+                    e completa.
                   </p>
                 </CardContent>
               </Card>
@@ -304,7 +316,13 @@ export default function Home() {
                     Crie itens curtos e objetivos para manter seus prompts
                     limpos.
                   </p>
-                  <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                  <Dialog
+                    open={isModalOpen}
+                    onOpenChange={(open) => {
+                      setIsModalOpen(open);
+                      if (!open) setNewItemError("");
+                    }}
+                  >
                     <DialogTrigger asChild>
                       <Button className="w-full gap-2" size="lg">
                         <Plus className="size-4" />
@@ -321,11 +339,19 @@ export default function Home() {
                           <Input
                             placeholder="Ex: Header da landing page"
                             value={newItemName}
-                            onChange={(e) => setNewItemName(e.target.value)}
+                            onChange={(e) => {
+                              setNewItemName(e.target.value);
+                              if (newItemError) setNewItemError("");
+                            }}
                             onKeyDown={(e) =>
                               e.key === "Enter" && handleAddItem()
                             }
                           />
+                          {newItemError ? (
+                            <p className="text-sm text-destructive">
+                              {newItemError}
+                            </p>
+                          ) : null}
                         </div>
                         <div className="space-y-2">
                           <label className="text-sm font-medium">Tipo</label>
